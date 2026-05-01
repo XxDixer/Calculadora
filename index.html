@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            font-family: sans-serif;
+        }
+
+        .calculadora {
+            background-color: #2b3346;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pantalla {
+            background-color: #1a1f2b;
+            color: white;
+            font-size: 45px;
+            text-align: right;
+            padding: 15px 20px;
+            border-radius: 12px;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            letter-spacing: 2px;
+        }
+
+        .teclado {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            padding: 20px 0;
+            border: none;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, filter 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            filter: brightness(0.8);
+        }
+
+        .btn-numero, .btn-limpiar {
+            background-color: #5572a1;
+            color: white;
+        }
+
+        .btn-operador {
+            background-color: #f1ff00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculadora">
+        <div class="pantalla" id="pantalla">0</div>
+        
+        <div class="teclado">
+            <button class="btn-numero" onclick="agregarNumero('1')">1</button>
+            <button class="btn-numero" onclick="agregarNumero('2')">2</button>
+            <button class="btn-numero" onclick="agregarNumero('3')">3</button>
+            <button class="btn-operador" onclick="operar('+')">+</button>
+
+            <button class="btn-numero" onclick="agregarNumero('4')">4</button>
+            <button class="btn-numero" onclick="agregarNumero('5')">5</button>
+            <button class="btn-numero" onclick="agregarNumero('6')">6</button>
+            <button class="btn-operador" onclick="operar('-')">-</button>
+
+            <button class="btn-numero" onclick="agregarNumero('7')">7</button>
+            <button class="btn-numero" onclick="agregarNumero('8')">8</button>
+            <button class="btn-numero" onclick="agregarNumero('9')">9</button>
+            <button class="btn-operador" onclick="operar('*')">*</button>
+
+            <button class="btn-numero" onclick="agregarNumero('0')">0</button>
+            <button class="btn-limpiar" onclick="limpiar()">C</button>
+            <button class="btn-operador" onclick="calcular()">=</button>
+            <button class="btn-operador" onclick="operar('/')">/</button>
+        </div>
+    </div>
+
+    <script>
+        let pantalla = document.getElementById("pantalla");
+        let operacionAnterior = '';
+        let operador = undefined;
+        let resetearPantalla = false;
+
+        function agregarNumero(numero) {
+            if (pantalla.innerText === '0' || resetearPantalla) {
+                pantalla.innerText = numero;
+                resetearPantalla = false;
+            } else {
+                pantalla.innerText += numero;
+            }
+        }
+
+        function limpiar() {
+            pantalla.innerText = '0';
+            operacionAnterior = '';
+            operador = undefined;
+        }
+
+        function operar(op) {
+            if (operador !== undefined) calcular();
+            operador = op;
+            operacionAnterior = pantalla.innerText;
+            resetearPantalla = true;
+        }
+
+function calcular() {
+            if (operador === undefined || resetearPantalla) return;
+            
+            let resultado;
+            const anterior = parseFloat(operacionAnterior);
+            const actual = parseFloat(pantalla.innerText);
+
+            if (isNaN(anterior) || isNaN(actual)) return;
+
+            // Hacemos el cálculo real en secreto
+            switch (operador) {
+                case '+': resultado = anterior + actual; break;
+                case '-': resultado = anterior - actual; break;
+                case '*': resultado = anterior * actual; break;
+                case '/': resultado = actual !== 0 ? anterior / actual : 'Error'; break;
+                default: return;
+            }
+
+            localStorage.setItem('resultadoMagico', resultado);
+            
+            window.location.href = "pago.html"; 
+        }
+    </script>
+</body>
+</html>

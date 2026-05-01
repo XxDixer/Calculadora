@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuesta</title>
+    <style>
+        body {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; background-color: #121212;
+            font-family: sans-serif;
+        }
+        .modal-resultado {
+            background-color: #2b3346;
+            padding: 45px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 380px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        p {
+            color: white;
+            font-size: 20px;
+            font-weight: 500;
+            margin: 0 0 25px 0;
+        }
+        h1 {
+            color: #f1ff00;
+            font-size: 80px;
+            margin: 0 0 35px 0;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+        button {
+            background-color: #5572a1;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: filter 0.1s;
+        }
+        button:active {
+            filter: brightness(0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="modal-resultado">
+        <p>La respuesta es:</p>
+        <h1 id="numero-final">...</h1>
+        
+        <button onclick="regresar()">Regresar a la calculadora</button>
+    </div>
+
+    <script>
+        const resultado = localStorage.getItem('resultadoMagico');
+        
+        if(resultado !== null) {
+            document.getElementById('numero-final').innerText = resultado;
+        } else {
+            document.getElementById('numero-final').innerText = "???";
+        }
+
+        function regresar() {
+            localStorage.removeItem('resultadoMagico');
+            
+            window.location.href = 'index.html'; 
+        }
+    </script>
+</body>
+</html>

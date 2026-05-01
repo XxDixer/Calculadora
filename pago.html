@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desbloquea la calculadora</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #121212; font-family: sans-serif; }
+        .modal-pago { background-color: #2b3346; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 320px; display: flex; flex-direction: column; box-sizing: border-box; }
+        h2 { margin: 0 0 8px 0; color: white; font-size: 20px; font-weight: 600; }
+        p { margin: 0 0 25px 0; color: #d1d5db; font-size: 14px; }
+        input { background-color: #1a1f2b; border: none; padding: 16px; margin-bottom: 15px; border-radius: 10px; color: white; font-size: 15px; outline: none; }
+        input::placeholder { color: #a0aec0; }
+        button { background-color: #f1ff00; color: black; border: none; padding: 16px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 5px; display: flex; justify-content: center; align-items: center; gap: 8px; transition: filter 0.1s; }
+        button:active { filter: brightness(0.9); }
+    </style>
+</head>
+<body>
+
+    <div class="modal-pago">
+        <h2>Actualiza la versión PRO</h2>
+        <p>Introduce tus datos para conocer tus respuestas</p>
+
+        <input type="text" id="tarjeta" placeholder="Numero de tarjeta" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        
+        <input type="text" id="fecha" placeholder="MM/AA" maxlength="5" oninput="formatearFecha(this)">
+        
+        <input type="text" id="cvv" placeholder="CVV" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+        <button onclick="procesarPago()">🔒 Pagar $9.99</button>
+    </div>
+
+    <script>
+        function formatearFecha(input) {
+            let valor = input.value.replace(/[^0-9]/g, '');
+            if (valor.length >= 2) {
+                valor = valor.substring(0, 2) + '/' + valor.substring(2, 4);
+            }
+            input.value = valor;
+        }
+
+        function procesarPago() {
+            const tarjeta = document.getElementById('tarjeta').value;
+            const fecha = document.getElementById('fecha').value;
+            const cvv = document.getElementById('cvv').value;
+
+            if (tarjeta.length !== 16) {
+                alert("Por favor, ingresa los 16 números de la tarjeta.");
+                return;
+            }
+            if (fecha.length !== 5) {
+                alert("La fecha debe estar en formato MM/AA.");
+                return;
+            }
+            if (cvv.length !== 3) {
+                alert("El CVV debe ser de 3 dígitos.");
+                return;
+            }
+
+            window.location.href = 'resultado.html';
+        }
+    </script>
+</body>
+</html>
